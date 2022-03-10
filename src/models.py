@@ -28,26 +28,33 @@ Base = declarative_base()
 
 
 
-class User():
-    _tablename__="User"
+class User(Base):
+    _tablename__="user"
     id= Column(Integer, primary_key=True)
-    name= Column(String(200))
+    name= Column(String(20))
+    password = Column(String(50))  
     bio= Column(String(180))
 
-class Post():
-    _tablename__="Post"
+class Post(Base):
+    _tablename__="post"
     id= Column(Integer, primary_key=True)
     caption= Column(String(180))
     likes= column(Integer)
 
-class LikedPosts():
-    _tablename__="LikedPosts"
+class LikedPosts(Base):
+    _tablename__="likedposts"
     id= Column(Integer, primary_key=True)
+    user_id= Column(Integer, ForeignKey('user.id'))
+    posts_id= Column(Integer, ForeignKey('posts.id'))
+    LikedPosts = relationship(user_id)
 
-class Comments():
-    _tablename__="Comments"
+class Comments(Base):
+    _tablename__="comments"
     id= Column(Integer, primary_key=True)
-
+    comment= column(String(200))
+    user_id= Column(Integer, ForeignKey('user.id'))
+    posts_id= Column(Integer, ForeignKey('posts.id'))
+    Comments = relationship(posts_id)
 
 
     def to_dict(self):
