@@ -1,5 +1,6 @@
 import os
 import sys
+import sqlalchemy
 from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
@@ -29,29 +30,29 @@ Base = declarative_base()
 
 
 class User(Base):
-    _tablename__="user"
+    __tablename__= "user"
     id= Column(Integer, primary_key=True)
     name= Column(String(20))
     password = Column(String(50))  
     bio= Column(String(180))
 
-class Post(Base):
-    _tablename__="post"
+class Posts(Base):
+    __tablename__= "posts"
     id= Column(Integer, primary_key=True)
     caption= Column(String(180))
-    likes= column(Integer)
+    likes= Column(Integer)
 
 class LikedPosts(Base):
-    _tablename__="likedposts"
+    __tablename__= "likedposts"
     id= Column(Integer, primary_key=True)
     user_id= Column(Integer, ForeignKey('user.id'))
     posts_id= Column(Integer, ForeignKey('posts.id'))
     LikedPosts = relationship(user_id)
 
 class Comments(Base):
-    _tablename__="comments"
+    __tablename__= "comments"
     id= Column(Integer, primary_key=True)
-    comment= column(String(200))
+    comment= Column(String(200))
     user_id= Column(Integer, ForeignKey('user.id'))
     posts_id= Column(Integer, ForeignKey('posts.id'))
     Comments = relationship(posts_id)
